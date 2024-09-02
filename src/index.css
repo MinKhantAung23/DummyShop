@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.active {
+  @apply text-blue-400  font-bold  transition-all bg-gray-100 duration-300;
+}
