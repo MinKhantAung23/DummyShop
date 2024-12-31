@@ -44,10 +44,10 @@ const Navbar = () => {
           <div className="flex-shrink-0">
             <Link
               to={"/"}
-              className="text-2xl font-bold flex items-center shadow-md py-2 px-3 rounded-lg hover:bg-gray-200 dark:hover:shadow-xl dark:hover:bg-black duration-300"
+              className="text-xl font-bold bg-gradient-to-r from-blue-500 to-cyan-500 flex items-center shadow-md py-2 px-3 rounded-lg hover:bg-gray-200 dark:hover:shadow-xl dark:hover:bg-black duration-300"
             >
-              Shopify
-              <FaShopify className="ml-2 text-2xl animate-pulse" />
+              Dummy
+              <FaShopify className="ml-1 text-xl animate-pulse" />
             </Link>
           </div>
           <div className="hidden md:flex space-x-4">
@@ -162,7 +162,7 @@ const Navbar = () => {
             </NavLink>
             <NavLink
               to={"/cart"}
-              className="hover:bg-gray-200 px-3 py-2 ms-2 rounded-md"
+              className="hover:bg-gray-200 px-3 py-2 ms-1 rounded-md"
             >
               <svg
                 className="w-6 h-6"
@@ -181,7 +181,7 @@ const Navbar = () => {
             </NavLink>
             <button
               onClick={toggleDarkMode}
-              className="ms-2 px-2 py-2 dark:text-white rounded duration-300"
+              className="ms-1 px-2 py-2 dark:text-white rounded duration-300"
             >
               {darkMode ? (
                 <svg

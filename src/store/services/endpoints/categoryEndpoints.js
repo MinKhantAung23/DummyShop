@@ -18,7 +18,7 @@ const categoryEndpoints = Api.injectEndpoints({
       keepUnusedDataFor: 180,
     }),
     searchProductsByCategory: builder.query({
-      query: (search, category) => `products/category/q=${search}&category=${category}`,
+      query: ({ search, category }) => `products/category/q=${search}&category=${category}`,
       providesTags: ["Products"],
       keepUnusedDataFor: 180,
     }),
@@ -29,4 +29,5 @@ export const {
   useGetCategoryQuery,
   useGetCategoryListQuery,
   useGetProductsByCategoryQuery,
+  useSearchProductsByCategoryQuery,
 } = categoryEndpoints;

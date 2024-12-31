@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ContainerLayout from "../layout/ContainerLayout";
 import GridLayout from "../layout/GridLayout";
 import ProductCard from "../components/products/ProductCard";
@@ -8,22 +8,34 @@ import Pagination from "../components/pagination/Pagination";
 import Search from "./Search";
 import CategoryDrawer from "../components/category/CategoryDrawer";
 import { Alert, Button } from "flowbite-react";
-import { useGetProductsByCategoryQuery } from "../store/services/endpoints/categoryEndpoints";
-import { useParams } from "react-router-dom";
+import {
+  useGetProductsByCategoryQuery,
+  useSearchProductsByCategoryQuery,
+} from "../store/services/endpoints/categoryEndpoints";
+import { useLocation, useParams, useSearchParams } from "react-router-dom";
 import { useSearchProductsQuery } from "../store/services/endpoints/productEndpoints";
 import LoadingSpinner from "../components/spinner/LoadingSpinner";
 import { HiInformationCircle } from "react-icons/hi";
 
 const Category = () => {
   const { category } = useParams();
-  const [search, setSearch] = useState("");
-  const [page, setPage] = useState(1);
-  const limit = 20;
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const pageParam = parseInt(searchParams.get("page")) || 1;
+  const limitParam = parseInt(searchParams.get("limit")) || 20;
+
+  const [page, setPage] = useState(pageParam);
+  const [limit, setLimit] = useState(limitParam);
+
+  useEffect(() => {
+    setSearchParams({ page, limit });
+  }, [page, limit, setSearchParams]);
+
   const {
     data: productsByCategory,
     isLoading: categoryLoading,
     error: categoryError,
-  } = useGetProductsByCategoryQuery({ page, limit, category });
+  } = useGetProductsByCategoryQuery({ category, page, limit });
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -33,6 +45,18 @@ const Category = () => {
     { name: `${category} products`, href: `/category/${category}` },
   ];
 
+  const [search, setSearch] = useState("");
+
+  const {
+    data: searchProducts,
+    isLoading: searchLoading,
+    error: searchError,
+  } = useSearchProductsByCategoryQuery({ search, category });
+
+  useEffect(() => {
+    if (search) setPage(1);
+  }, [search]);
+
   const handleSearch = (e) => {
     setSearch(e.target.value);
   };
@@ -41,8 +65,13 @@ const Category = () => {
     (product) => product.title.toLowerCase().includes(search.toLowerCase())
   );
 
-  if (categoryLoading) return <LoadingSpinner />;
-  if (categoryError)
+  const productsDisplay =
+    search && searchProducts?.products?.length > 0
+      ? searchProducts.products
+      : prodctsByCategoryDisplay;
+
+  if (categoryLoading || searchLoading) return <LoadingSpinner />;
+  if (categoryError || searchError)
     return (
       <div>
         <Alert color="failure" icon={HiInformationCircle}>
@@ -64,9 +93,9 @@ const Category = () => {
           <Button onClick={() => setIsOpen(true)}>Category</Button>
           <CategoryDrawer isOpen={isOpen} handleClose={handleClose} />
         </div>
-        {prodctsByCategoryDisplay?.length > 0 ? (
+        {productsDisplay?.length > 0 ? (
           <GridLayout>
-            {prodctsByCategoryDisplay?.map((product) => (
+            {productsDisplay?.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </GridLayout>
@@ -79,8 +108,7 @@ const Category = () => {
       <Pagination
         page={page}
         setPage={setPage}
-        totalPages={productsByCategory?.total}
-        limit={limit}
+        totalPages={Math.ceil(productsByCategory?.total / limit)}
       />
     </ContainerLayout>
   );

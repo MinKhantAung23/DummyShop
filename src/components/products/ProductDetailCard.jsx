@@ -8,7 +8,6 @@ import {
   addToFavorite,
   removeFromFavorite,
 } from "../../store/features/favoriteSlice";
-import { useToasterStore } from "react-hot-toast/headless";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
@@ -20,11 +19,13 @@ const ProductDetailCard = ({ productDetail }) => {
   const isFavorite = favorites.find(
     (favorite) => favorite.id === productDetail.id
   );
+
   const handleAddToCart = (e) => {
     e.stopPropagation();
     dispatch(addToCart(productDetail));
     toast.success("Product added to cart");
   };
+
   const toggleFavorite = (e) => {
     e.stopPropagation();
 
@@ -36,122 +37,102 @@ const ProductDetailCard = ({ productDetail }) => {
       toast.success("Product added to favorite");
     }
   };
+
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="flex flex-col md:flex-row">
-        <div className="md:w-1/2 flex items-center justify-center mb-4 md:mb-0">
-          <img
-            src={productDetail?.thumbnail}
-            alt={productDetail?.title}
-            className="w-full h-auto  object-cover rounded-lg shadow-md hover:shadow-lg border shadow-blue-50 "
-          />
-        </div>
+    <div className="max-w-5xl mx-auto px-6 py-10">
+      <div className="bg-gradient-to-br from-white to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-lg shadow-2xl overflow-hidden">
+        <div className="flex flex-col lg:flex-row">
+          <div className="lg:w-1/2 p-6 flex justify-center items-center bg-gradient-to-b from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700">
+            <img
+              src={productDetail?.thumbnail}
+              alt={productDetail?.title}
+              className="w-full h-auto max-w-xs rounded-lg shadow-lg transform transition-transform hover:scale-105"
+            />
+          </div>
 
-        <div className="md:w-1/2 md:pl-8">
-          <div className="flex justify-between items-center">
-            <h1 className="text-3xl font-bold mb-4 dark:text-white">
-              {productDetail?.title}
-            </h1>
-            <button onClick={toggleFavorite}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className={`size-7 ${
-                  isFavorite ? "fill-red-500" : "fill-gray-50"
-                }`}
+          <div className="lg:w-1/2 p-6 flex flex-col justify-between">
+            <div className="flex justify-between items-center">
+              <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
+                {productDetail?.title}
+              </h1>
+              <button
+                onClick={toggleFavorite}
+                className="text-xl text-gray-500 dark:text-gray-400 hover:text-red-500 transition-colors"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
-                />
-              </svg>
-            </button>
-          </div>
-          <p className="text-lg text-gray-100 mb-4  w-fit rounded-lg px-3 py-1 bg-orange-400 ">
-            {productDetail?.category}
-          </p>
-          <div className="flex justify-start items-center mt-2 mb-3">
-            <Rating rate={productDetail?.rating} />
-            <p className="text-gray-600 text-lg font-medium ms-4">
-              {productDetail?.rating}
-            </p>
-          </div>
+                {isFavorite ? (
+                  <i className="fas fa-heart text-red-500"></i>
+                ) : (
+                  <i className="far fa-heart"></i>
+                )}
+              </button>
+            </div>
 
-          {productDetail?.brand && (
-            <p className="text-lg font-semibold text-gray-700 dark:text-gray-50 mb-4">
-              Brand :{" "}
-              <span className="font-medium">{productDetail?.brand}</span>
+            <p className="text-sm text-white bg-orange-500 py-1 px-3 rounded-full w-fit mt-4">
+              {productDetail?.category}
             </p>
-          )}
-          <div className="flex justify-start items-center space-x-4 my-2">
-            <p className="mt-auto text-red-500 font-bold text-4xl">
-              ${productDetail?.price}
-            </p>
-            <p className="dark:text-gray-400 text-lg ">
-              -{productDetail?.discountPercentage}% off
-            </p>
-          </div>
-          <p className="text-gray-700 dark:text-gray-50 mb-6 mt-3 text-lg font-medium">
-            {productDetail?.description}
-          </p>
-          <p className="text-lg text-gray-600 mb-4 dark:text-gray-50 font-semibold">
-            Stock : {productDetail?.stock}
-            <span className="text-gray-800 dark:text-gray-50 ml-2 ">
-              ( {productDetail?.availabilityStatus})
-            </span>
-          </p>
 
-          <div className="flex justify-between">
-            <button
-              onClick={handleAddToCart}
-              className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-transform transform hover:scale-105"
-            >
-              Add to Cart
-            </button>
-            <button
-              onClick={() => navigate("/products")}
-              className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-transform transform hover:scale-105"
-            >
-              View all products
-            </button>
+            <div className="flex items-center mt-4">
+              <Rating rate={productDetail?.rating} />
+              <p className="ml-3 text-gray-600 dark:text-gray-300 text-sm">
+                {productDetail?.rating} / 5
+              </p>
+            </div>
+            <p className="text-sm mt-2 text-gray-500 dark:text-gray-400">
+              Brand: {productDetail?.brand || "Unknown"}
+            </p>
+
+            <div className="mt-6">
+              <p className="text-3xl font-bold text-red-600">
+                ${productDetail?.price}
+              </p>
+              {productDetail?.discountPercentage && (
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                  {productDetail?.discountPercentage}% Off
+                </p>
+              )}
+            </div>
+
+            <p className="mt-4 text-gray-700 dark:text-gray-300">
+              {productDetail?.description}
+            </p>
+
+            <div className="mt-6 flex gap-4">
+              <button
+                onClick={handleAddToCart}
+                className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-6 rounded-lg shadow-lg font-medium transition-transform transform hover:scale-105"
+              >
+                Add to Cart
+              </button>
+              <button
+                onClick={() => navigate("/products")}
+                className="bg-gray-500 hover:bg-gray-600 text-white py-2 px-6 rounded-lg shadow-lg font-medium transition-transform transform hover:scale-105"
+              >
+                View All Products
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="mt-8">
-        <h2 className="text-2xl font-semibold dark:text-gray-50 mb-4">
+      <div className="mt-8 bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg">
+        <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-100">
           Additional Information
         </h2>
-        <ul className="list-disc pl-5 space-y-2 text-gray-800 dark:text-gray-50">
-          <li className="text-lg font-medium">
-            Tags :{" "}
-            <span className="font-normal">
-              {productDetail?.tags.join(", ")}
-            </span>
+        <ul className="mt-4 space-y-2 text-gray-600 dark:text-gray-300">
+          <li>
+            <strong>Tags:</strong> {productDetail?.tags?.join(", ") || "None"}
           </li>
-          <li className="text-lg font-medium">
-            Shipping:{" "}
-            <span className="font-normal">
-              {productDetail?.shippingInformation}
-            </span>
+          <li>
+            <strong>Shipping:</strong>{" "}
+            {productDetail?.shippingInformation || "N/A"}
           </li>
-          {productDetail?.warrantyInformation ? (
-            <li className="text-lg font-medium">
-              Warranty :{" "}
-              <span className="font-normal">
-                {productDetail?.warrantyInformation}
-              </span>
-            </li>
-          ) : (
-            <li className="text-lg font-medium">No warranty</li>
-          )}
-          <li className="text-lg font-medium">
-            Return:{" "}
-            <span className="font-normal">{productDetail?.returnPolicy}</span>
+          <li>
+            <strong>Warranty:</strong>{" "}
+            {productDetail?.warrantyInformation || "No warranty"}
+          </li>
+          <li>
+            <strong>Return Policy:</strong>{" "}
+            {productDetail?.returnPolicy || "N/A"}
           </li>
         </ul>
       </div>

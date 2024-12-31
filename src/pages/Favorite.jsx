@@ -8,11 +8,11 @@ import FavCard from "../assets/favorite.svg";
 import { useNavigate } from "react-router-dom";
 import { Pagination } from "flowbite-react";
 import { FaHeart } from "react-icons/fa";
+import BreadcrumbComponent from "../components/breadcrumb/BreadcrumbComponent";
 
 const Favorite = () => {
   const navigate = useNavigate();
   const favorite = useSelector((state) => state.favorite);
-  console.log(favorite);
 
   const [currentPage, setCurrentPage] = useState(1);
   const limit = 5;
@@ -28,9 +28,14 @@ const Favorite = () => {
   const handleBack = () => {
     navigate("/products");
   };
+  const breadcrumbItems = [
+    { name: "Product", href: "/products" },
+    { name: "Favorite" },
+  ];
 
   return (
     <ContainerLayout className="py-10">
+      <BreadcrumbComponent items={breadcrumbItems} />
       <h1 className="text-3xl font-bold dark:text-gray-50 mb-8">
         Favorites <FaHeart className="inline text-red-500 animate-pulse" />
       </h1>

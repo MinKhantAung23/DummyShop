@@ -3,16 +3,16 @@
 import React, { useState } from "react";
 import { Pagination as FlowbitePagination } from "flowbite-react";
 
-const Pagination = ({ page, setPage, totalPages, limit }) => {
-  const onPageChange = (page) => setPage(page);
+const Pagination = ({ page, setPage, totalPages }) => {
+  const onPageChange = (newPage) => setPage(newPage);
   return (
     <div className="flex overflow-x-auto sm:justify-center mt-10">
       <FlowbitePagination
         currentPage={page}
-        totalPages={totalPages / limit}
+        totalPages={totalPages}
         onPageChange={onPageChange}
         showIcons
-        // size="sm"
+        size="sm"
       />
     </div>
   );

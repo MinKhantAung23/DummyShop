@@ -51,12 +51,6 @@ export const cartSlice = createSlice({
                     state.cartData.totalQuantity--;
                     state.cartData.totalAmount -= product.price;
                     localStorage.setItem('cartData', JSON.stringify(state.cartData));
-                } else {
-                    state.cartData.products = state.products.filter((product) => product.id !== action.payload.id);
-                    const removedProduct = state.cartData.products;
-                    state.cartData.totalQuantity -= removedProduct.quantity;
-                    state.cartData.totalAmount -= removedProduct.price * removedProduct.quantity;
-                    localStorage.setItem('cartData', JSON.stringify(state.cartData));
                 }
 
             }

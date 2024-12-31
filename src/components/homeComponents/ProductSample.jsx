@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React from "react";
+import React, { useState } from "react";
 import { useProductsQuery } from "../../store/services/endpoints/productEndpoints";
 import ContainerLayout from "../../layout/ContainerLayout";
 import GridLayout from "../../layout/GridLayout";
@@ -8,10 +8,22 @@ import { Link } from "react-router-dom";
 import LoadingSpinner from "../spinner/LoadingSpinner";
 import { Alert } from "flowbite-react";
 import { HiInformationCircle } from "react-icons/hi";
+import { useGetProductsByCategoryQuery } from "../../store/services/endpoints/categoryEndpoints";
 
 const ProductSample = () => {
-  const limit = 7;
-  const { data: products, isLoading, error } = useProductsQuery(limit);
+  const [page, setPage] = useState(1);
+  const limit = 10;
+
+  const {
+    data: products,
+    isLoading,
+    error,
+  } = useGetProductsByCategoryQuery({
+    category: "smartphones",
+    page,
+    limit,
+  });
+
   if (isLoading) return <LoadingSpinner />;
   if (error)
     return (

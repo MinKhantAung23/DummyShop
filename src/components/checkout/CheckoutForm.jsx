@@ -7,6 +7,7 @@ const CheckoutForm = () => {
     name: "",
     email: "",
     address: "",
+    phoneNumber: "",
     city: "",
     cardNumber: "",
     expirationDate: "",
@@ -24,18 +25,19 @@ const CheckoutForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     toast.success("Thank you for shopping with us!");
-    console.log("Checkout data submitted:", formData);
-    print("Checkout data submitted:", formData);
+
     setFormData({
       name: "",
       email: "",
       address: "",
+      phoneNumber: "",
       city: "",
       cardNumber: "",
       expirationDate: "",
       cvv: "",
     });
   };
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-800">
       <div className="bg-white shadow-lg rounded-lg p-8 md:p-12 lg:p-16 my-10 w-full max-w-lg dark:bg-gray-600">
@@ -98,7 +100,24 @@ const CheckoutForm = () => {
               required
             />
           </div>
-
+          <div>
+            <label
+              htmlFor="phoneNumber"
+              className="block text-sm font-medium text-gray-700  dark:text-gray-50"
+            >
+              Phone Number
+            </label>
+            <input
+              type="text"
+              id="phoneNumber"
+              name="phoneNumber"
+              value={formData.phoneNumber}
+              onChange={handleChange}
+              className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              placeholder="Your phoneNumber"
+              required
+            />
+          </div>
           <div>
             <label
               htmlFor="city"

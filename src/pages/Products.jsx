@@ -12,15 +12,26 @@ import CategoryDrawer from "../components/category/CategoryDrawer";
 import BreadcrumbComponent from "../components/breadcrumb/BreadcrumbComponent";
 import LoadingSpinner from "../components/spinner/LoadingSpinner";
 import { HiInformationCircle } from "react-icons/hi";
+import { useSearchParams } from "react-router-dom";
 
 const Products = () => {
-  const [page, setPage] = useState(1);
-  const limit = 20;
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const pageParam = parseInt(searchParams.get("page")) || 1;
+  const limitParam = parseInt(searchParams.get("limit")) || 20;
+
+  const [page, setPage] = useState(pageParam);
+  const [limit, setLimit] = useState(limitParam);
+
+  useEffect(() => {
+    setSearchParams({ page, limit });
+  }, [page, limit, setSearchParams]);
+
   const {
     data: products,
     isLoading: productLoading,
     error: productError,
-  } = useProductsQuery(page, limit);
+  } = useProductsQuery({ page, limit });
 
   const [search, setSearch] = useState("");
 
@@ -76,8 +87,7 @@ const Products = () => {
       <Pagination
         page={page}
         setPage={setPage}
-        totalPages={products?.total}
-        limit={limit}
+        totalPages={Math.ceil(products?.total / limit)}
       />
     </ContainerLayout>
   );
