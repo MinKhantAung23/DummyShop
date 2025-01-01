@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { Badge, Button } from "flowbite-react";
-import { FaShopify } from "react-icons/fa";
 import { useSelector } from "react-redux";
+import Logo from "../../assets/ecommerce.png";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -44,10 +44,10 @@ const Navbar = () => {
           <div className="flex-shrink-0">
             <Link
               to={"/"}
-              className="text-xl font-bold bg-gradient-to-r from-blue-500 to-cyan-500 flex items-center shadow-md py-2 px-3 rounded-lg hover:bg-gray-200 dark:hover:shadow-xl dark:hover:bg-black duration-300"
+              className="text-xl font-bold bg-gradient-to-tr from-gray-100 to-gray-200 dark:text-gray-600 flex items-center shadow-md py-2 px-3 rounded-lg hover:bg-gray-200 dark:hover:shadow-xl dark:hover:bg-black duration-300"
             >
               Dummy
-              <FaShopify className="ml-1 text-xl animate-pulse" />
+              <img src={Logo} alt="logo" className="ml-1 size-6" />
             </Link>
           </div>
           <div className="hidden md:flex space-x-4">

@@ -1,7 +1,8 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
-import { FaGithub, FaFacebook, FaTelegram, FaShopify } from "react-icons/fa";
+import { FaGithub, FaFacebook, FaTelegram } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import Logo from "../../assets/ecommerce.png";
 
 const Foot = () => {
   const date = new Date().getFullYear();
@@ -15,7 +16,7 @@ const Foot = () => {
               className="text-2xl flex items-center gap-2 font-semibold"
             >
               Dummy
-              <FaShopify className="ml-1 text-xl animate-pulse" />
+              <img src={Logo} alt="logo" className="ml-1 bg-white size-6" />
             </Link>
             <p className="text-sm text-gray-400 mt-2">
               Dummy Online Shop is your ultimate destination for affordable,
