@@ -38,10 +38,6 @@ Live Demo: [Dummy Online Shop](https://dummyonlineshop.netlify.app)
 - Accessible category navigation drawer.
 - Displays a list of available product categories.
 
-### 8. **Footer**
-- Links to external profiles such as GitHub and Facebook.
-- Quick access to About and Contact pages.
-
 ---
 
 ## Tech Stack
